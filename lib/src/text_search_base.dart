@@ -1,6 +1,6 @@
 import 'dart:math' as math;
 
-import 'package:edit_distance/edit_distance.dart';
+import 'package:text_search/src/jaro_winkler.dart';
 import 'package:tuple/tuple.dart';
 
 /// Represents a candidate `term` for a search result.
@@ -92,9 +92,9 @@ class TextSearch<T> {
       return 0 + itemTerm.scorePenalty;
     }
     // Direct comparison (regardless of word or sentence).
-    final initialScore = _editDistance.normalizedDistance(
-            searchTerm.toLowerCase(), term.toLowerCase()) *
-        searchTerm.length;
+    final initialScore =
+        _editDistance.distance(searchTerm.toLowerCase(), term.toLowerCase()) *
+            searchTerm.length;
     if (!term.contains(' ')) {
       return initialScore + itemTerm.scorePenalty;
     }

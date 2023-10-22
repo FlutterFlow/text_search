@@ -2,15 +2,12 @@ name: text_search
 description: Simple in-memory fuzzy text searching library.
 version: 0.0.3
 
-repository:
-  type: git
-  url: https://github.com/FlutterFlow/text_search
+repository: https://github.com/FlutterFlow/text_search
 
 environment:
   sdk: '>=2.12.0 <4.0.0'
 
 dependencies:
-  edit_distance: ^0.5.0-nullsafety.0
   tuple: ^2.0.0
 
 dev_dependencies:
