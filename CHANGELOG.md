@@ -1,3 +1,8 @@
+## 0.0.3
+
+- Remove dependency on unmaintained `edit_distance` library.
+- Improve text matching results involving spaces in the search term. 
+
 ## 0.0.2
 
 - Null safety.
