@@ -1,6 +1,6 @@
 name: text_search
 description: Simple in-memory fuzzy text searching library.
-version: 0.0.3
+version: 1.0.0
 
 repository: https://github.com/FlutterFlow/text_search
 

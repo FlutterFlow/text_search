@@ -1,3 +1,8 @@
+## 1.0.0
+
+- Update major version since 0.0.3 had breaking changes.
+- Fix some edge cases.
+
 ## 0.0.3
 
 - Remove dependency on unmaintained `edit_distance` library.

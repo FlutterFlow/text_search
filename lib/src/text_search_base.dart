@@ -86,6 +86,11 @@ class TextSearch<T> {
   }
 
   double _scoreTerm(String searchTerm, TextSearchItemTerm itemTerm) {
+    if (itemTerm.term.length == 1) {
+      return searchTerm.startsWith(itemTerm.term)
+          ? 0 + itemTerm.scorePenalty
+          : 4;
+    }
     searchTerm = searchTerm.toLowerCase();
     final term = itemTerm.term.toLowerCase();
     if (searchTerm == term) {
@@ -102,9 +107,14 @@ class TextSearch<T> {
       return math.max(0.05, (0.5 - searchTerm.length / term.length)) +
           itemTerm.scorePenalty;
     }
+    if (term.contains(searchTerm)) {
+      return math.max(0.05, (0.7 - searchTerm.length / term.length)) +
+          itemTerm.scorePenalty;
+    }
     // Compare to sentences by splitting to each component word.
     final words = term.split(' ');
     final perWordScore = words
+        .where((word) => word.length > 1)
         .map(
           (word) =>
               // Penalize longer sentences and avoid multiply by 0 (exact match).

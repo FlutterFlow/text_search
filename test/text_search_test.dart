@@ -74,5 +74,14 @@ void main() {
       expect(search.search('floating action').length, 1);
       expect(search.search('flating').length, 1);
     });
+
+    test('test edge cases', () {
+      final search = TextSearch([
+        TextSearchItem.fromTerms('single letter term', ['f']),
+      ]);
+      expect(search.search('f').length, 1);
+      expect(search.search('floating').length, 1);
+      expect(search.search('test').length, 0);
+    });
   });
 }

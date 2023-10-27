@@ -58,7 +58,7 @@ class JaroWinkler {
         3.0;
 
     var prefix = 0;
-    for (var i = 0; i < min(4, s1.length); i++) {
+    for (var i = 0; i < min(min(4, s1.length), s2.length); i++) {
       if (s1[i] == s2[i]) {
         prefix++;
       } else {
