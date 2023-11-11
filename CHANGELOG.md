@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Fixes additional edge cases.
+
 ## 1.0.0
 
 - Update major version since 0.0.3 had breaking changes.

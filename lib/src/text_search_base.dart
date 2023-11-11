@@ -113,8 +113,11 @@ class TextSearch<T> {
     }
     // Compare to sentences by splitting to each component word.
     final words = term.split(' ');
-    final perWordScore = words
-        .where((word) => word.length > 1)
+    final consideredWords = words.where((word) => word.length > 1);
+    if (consideredWords.isEmpty) {
+      return itemTerm.scorePenalty;
+    }
+    final perWordScore = consideredWords
         .map(
           (word) =>
               // Penalize longer sentences and avoid multiply by 0 (exact match).
