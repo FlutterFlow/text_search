@@ -51,12 +51,14 @@ class TextSearch<T> {
   /// Returns search results along with score ordered by decreasing score.
   /// For libraries with 10k+ items, `fastSearch` will start being noticeably
   /// faster.
-  List<TextSearchResult<T>> search(String term, {double matchThreshold = 1.5}) {
+  List<TextSearchResult<T>> search(String term,
+      {double matchThreshold = 1.5, alwaysMatchPrefix = false}) {
     return items
         .map((item) => Tuple2(
             item,
             item.terms
-                .map((itemTerm) => _scoreTerm(term, itemTerm))
+                .map((itemTerm) => _scoreTerm(term, itemTerm,
+                    alwaysMatchPrefix: alwaysMatchPrefix))
                 .reduce(math.min)))
         .where((t) => t.item2 < matchThreshold)
         .map((t) => TextSearchResult(t.item1.object, t.item2))
@@ -66,12 +68,14 @@ class TextSearch<T> {
 
   /// Returns search results ordered by decreasing score.
   /// ~3-5x faster than `search`, but does not include the search score.
-  List<T> fastSearch(String term, {double matchThreshold = 1.5}) {
+  List<T> fastSearch(String term,
+      {double matchThreshold = 1.5, alwaysMatchPrefix = false}) {
     final sorted = items
         .map((item) => Tuple2(
             item,
             item.terms
-                .map((itemTerm) => _scoreTerm(term, itemTerm))
+                .map((itemTerm) => _scoreTerm(term, itemTerm,
+                    alwaysMatchPrefix: alwaysMatchPrefix))
                 .reduce(math.min)))
         .toList()
       ..sort((a, b) => a.item2.compareTo(b.item2));
@@ -85,11 +89,15 @@ class TextSearch<T> {
     return result;
   }
 
-  double _scoreTerm(String searchTerm, TextSearchItemTerm itemTerm) {
+  double _scoreTerm(String searchTerm, TextSearchItemTerm itemTerm,
+      {alwaysMatchPrefix = false}) {
     if (itemTerm.term.length == 1) {
       return searchTerm.startsWith(itemTerm.term)
           ? 0 + itemTerm.scorePenalty
           : 4;
+    }
+    if (alwaysMatchPrefix && itemTerm.term.startsWith(searchTerm)) {
+      return 0 + itemTerm.scorePenalty;
     }
     searchTerm = searchTerm.toLowerCase();
     final term = itemTerm.term.toLowerCase();
