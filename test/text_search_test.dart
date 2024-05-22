@@ -83,5 +83,43 @@ void main() {
       expect(search.search('floating').length, 1);
       expect(search.search('test').length, 0);
     });
+
+    test('test prefix matching', () {
+      final search = TextSearch([
+        TextSearchItem.fromTerms('foo', ['selectedDaysDifference']),
+      ]);
+      // No match because of threshold
+      expect(search.search('selected', matchThreshold: 0.5).length, 0);
+      expect(search.search('selectedDays', matchThreshold: 0.5).length, 0);
+      // Match because alwaysMatchPrefix is true
+      expect(
+          search
+              .search('s', matchThreshold: 0.5, alwaysMatchPrefix: true)
+              .length,
+          1);
+      expect(
+          search
+              .search('selecte', matchThreshold: 0.5, alwaysMatchPrefix: true)
+              .length,
+          1);
+      expect(
+          search
+              .search('selectedDays',
+                  matchThreshold: 0.5, alwaysMatchPrefix: true)
+              .length,
+          1);
+      expect(
+          search
+              .search('selectedDaysDifference',
+                  matchThreshold: 0.5, alwaysMatchPrefix: true)
+              .length,
+          1);
+      expect(
+          search
+              .search('selectedDaysDifferenceAndMore',
+                  matchThreshold: 0.5, alwaysMatchPrefix: true)
+              .length,
+          0);
+    });
   });
 }
