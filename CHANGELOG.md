@@ -1,3 +1,7 @@
+## 1.0.2
+
+- Add an option to always match prefix.
+
 ## 1.0.1
 
 - Fixes additional edge cases.
